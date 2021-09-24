@@ -2,7 +2,8 @@ package br.com.alura.livraria.dto;
 
 import java.time.LocalDate;
 
-import br.com.alura.livraria.model.Autor;
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 import lombok.Data;
 
 @Data
@@ -11,11 +12,12 @@ public class LivroDto {
 	private String titulo;
 	private LocalDate dataLancamento;
 	private Integer paginas;
-	private Autor autor;
+	private AutorDto autor;
 	
 	//Para retornar somente o nome do autor na listagem de livros;
-	public String getAutor() {
-		return autor.getName();
+	@JsonGetter
+	public AutorDto getAutor() {
+		return autor;
 	}
 
 }

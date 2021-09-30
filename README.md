@@ -15,7 +15,7 @@ Realizamos validações de formulário utilizando a biblioteca Bean Validation e
 As seguintes ferramentas foram usadas na construção do projeto:
 
 - [Java 11](https://www.oracle.com/java/technologies/downloads/#java11)
-- [Spring](https://spring.io/)
+- [SpringBoot](https://spring.io/)
 - [ModelMapper](http://modelmapper.org/)
 - [Lombok](https://projectlombok.org/)
 - [MySql](https://www.mysql.com/)

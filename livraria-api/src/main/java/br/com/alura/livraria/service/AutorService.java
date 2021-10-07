@@ -2,6 +2,8 @@ package br.com.alura.livraria.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ public class AutorService {
 	
 	private ModelMapper modelMapper = new ModelMapper();
 	
+	@Transactional
 	public void cadastrar(AutorFormDto dto) {
 		Autor autor = modelMapper.map(dto, Autor.class);
 		

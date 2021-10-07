@@ -3,6 +3,8 @@ package br.com.alura.livraria.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,7 @@ public class LivroService {
 	
 	private ModelMapper mapper = new ModelMapper();
 	
-	
+	@Transactional
 	public void cadastrar(LivroFormDto dto) {
 		Livro livro = mapper.map(dto, Livro.class);
 		

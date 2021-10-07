@@ -1,11 +1,11 @@
 package br.com.alura.livraria.service;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.alura.livraria.dto.AutorFormDto;
@@ -27,8 +27,8 @@ public class AutorService {
 		repository.save(autor);
 	}
 	
-	public List<Autor> listar(){
-		return repository.findAll();
+	public Page<Autor> listar(Pageable paginacao){
+		return repository.findAll(paginacao);
 	}
 
 }

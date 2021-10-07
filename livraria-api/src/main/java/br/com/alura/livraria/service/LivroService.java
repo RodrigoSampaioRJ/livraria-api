@@ -1,12 +1,11 @@
 package br.com.alura.livraria.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.alura.livraria.dto.LivroDto;
@@ -29,8 +28,10 @@ public class LivroService {
 		repository.save(livro);
 	}
 	
-	public List<LivroDto> listar(){
-		return repository.findAll().stream().map(l -> mapper.map(l, LivroDto.class)).collect(Collectors.toList());
+	public Page<LivroDto> listar(Pageable paginacao){
+		
+		return repository.findAll(paginacao).map(l -> mapper.map(l, LivroDto.class));
+		
 	}
 
 }

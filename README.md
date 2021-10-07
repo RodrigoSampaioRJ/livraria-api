@@ -20,3 +20,4 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Lombok](https://projectlombok.org/)
 - [MySql](https://www.mysql.com/)
 - [Git](https://git-scm.com/)
+- [Flyway](https://flywaydb.org/)

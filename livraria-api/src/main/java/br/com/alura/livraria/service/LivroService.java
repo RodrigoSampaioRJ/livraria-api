@@ -22,10 +22,13 @@ public class LivroService {
 	private ModelMapper mapper = new ModelMapper();
 	
 	@Transactional
-	public void cadastrar(LivroFormDto dto) {
+	public LivroFormDto cadastrar(LivroFormDto dto) {
+		
 		Livro livro = mapper.map(dto, Livro.class);
 		
 		repository.save(livro);
+		
+		return mapper.map(livro, LivroFormDto.class);
 	}
 	
 	public Page<LivroDto> listar(Pageable paginacao){

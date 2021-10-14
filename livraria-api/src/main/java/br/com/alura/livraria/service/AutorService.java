@@ -21,10 +21,12 @@ public class AutorService {
 	private ModelMapper modelMapper = new ModelMapper();
 	
 	@Transactional
-	public void cadastrar(AutorFormDto dto) {
+	public AutorFormDto cadastrar(AutorFormDto dto) {
 		Autor autor = modelMapper.map(dto, Autor.class);
 		
 		repository.save(autor);
+		
+		return modelMapper.map(autor, AutorFormDto.class);
 	}
 	
 	public Page<Autor> listar(Pageable paginacao){

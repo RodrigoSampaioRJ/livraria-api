@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-LivrariaApiApplication<livraria-api>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "br.com.alura.livraria.LivrariaApiApplication",
+      "projectName": "livraria-api",
+      "args": ""
+    }
+  ]
+}

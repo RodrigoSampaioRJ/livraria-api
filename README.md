@@ -1,4 +1,4 @@
-<h1 align="center">Projeto Módulo 2 Alura Java BootCamp</h1>
+<h1 align="center">Projeto Módulo 4 Alura Java BootCamp</h1>
 
 <p> Durante o módulo dois, criamos um projeto Spring Boot do zero, utilizando a ferramenta Spring Initializr e o Maven para implementarmos os conceitos de uma API REST.
 

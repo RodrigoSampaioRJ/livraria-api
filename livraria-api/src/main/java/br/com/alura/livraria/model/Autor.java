@@ -29,5 +29,12 @@ public class Autor {
     @OneToMany(mappedBy = "autor")
     @JsonManagedReference
     private List<Livro> livros;
+    
+	public Autor(String name, String email, LocalDate dataDeNascimento, String miniCurriculo) {
+		this.name = name;
+		this.email = email;
+		this.dataDeNascimento = dataDeNascimento;
+		this.miniCurriculo = miniCurriculo;
+	}
 
 }

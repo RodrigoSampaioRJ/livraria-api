@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import br.com.alura.livraria.dto.AutorDto;
 import br.com.alura.livraria.dto.AutorFormDto;
 import br.com.alura.livraria.model.Autor;
 import br.com.alura.livraria.repositories.AutorRepository;
@@ -21,12 +22,12 @@ public class AutorService {
 	private ModelMapper modelMapper = new ModelMapper();
 	
 	@Transactional
-	public AutorFormDto cadastrar(AutorFormDto dto) {
+	public AutorDto cadastrar(AutorFormDto dto) {
 		Autor autor = modelMapper.map(dto, Autor.class);
 
 		repository.save(autor);
 		
-		return modelMapper.map(autor, AutorFormDto.class);
+		return modelMapper.map(autor, AutorDto.class);
 		
 	}
 	

@@ -27,13 +27,13 @@ public class LivroController {
 	private LivroService service;
 	
 	@PostMapping
-	public ResponseEntity<LivroFormDto> cadastrar(@RequestBody @Valid LivroFormDto dto, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<LivroDto> cadastrar(@RequestBody @Valid LivroFormDto dto, UriComponentsBuilder uriBuilder) {
 		
-		LivroFormDto livroFormDto = service.cadastrar(dto);
+		LivroDto livroDto = service.cadastrar(dto);
 		
-		URI uri = uriBuilder.path("livro/{id}").buildAndExpand(livroFormDto.getId()).toUri();
+		URI uri = uriBuilder.path("livro/{id}").buildAndExpand(livroDto.getId()).toUri();
 		
-		return ResponseEntity.created(uri).body(livroFormDto);
+		return ResponseEntity.created(uri).body(livroDto);
 	}
 	
 	@GetMapping

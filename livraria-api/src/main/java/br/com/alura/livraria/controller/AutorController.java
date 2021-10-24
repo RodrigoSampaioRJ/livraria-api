@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.alura.livraria.dto.AutorDto;
 import br.com.alura.livraria.dto.AutorFormDto;
 import br.com.alura.livraria.model.Autor;
 import br.com.alura.livraria.service.AutorService;
@@ -27,13 +28,13 @@ public class AutorController {
 	private AutorService service;
 	
 	@PostMapping
-	public ResponseEntity<AutorFormDto> cadastrar(@RequestBody @Valid AutorFormDto dto, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<AutorDto> cadastrar(@RequestBody @Valid AutorFormDto dto, UriComponentsBuilder uriBuilder) {
 		
-		AutorFormDto autorFormDto = service.cadastrar(dto);
+		AutorDto autorDto = service.cadastrar(dto);
 		
-		URI uri = uriBuilder.path("autor/{id}").buildAndExpand(autorFormDto.getId()).toUri();
+		URI uri = uriBuilder.path("autor/{id}").buildAndExpand(autorDto.getId()).toUri();
 		
-		return ResponseEntity.created(uri).body(autorFormDto);
+		return ResponseEntity.created(uri).body(autorDto);
 		
 
 	}

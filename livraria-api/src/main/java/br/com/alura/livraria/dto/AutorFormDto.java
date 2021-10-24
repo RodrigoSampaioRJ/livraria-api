@@ -29,4 +29,16 @@ public class AutorFormDto {
 	@NotBlank
     private String miniCurriculo;
 
+	public AutorFormDto(String name, String email, LocalDate dataDeNascimento,
+			 String miniCurriculo) {
+		this.name = name;
+		this.email = email;
+		this.dataDeNascimento = dataDeNascimento;
+		this.miniCurriculo = miniCurriculo;
+	}
+
+	
+	
+	
+
 }

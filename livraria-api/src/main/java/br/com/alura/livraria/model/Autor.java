@@ -12,11 +12,15 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "tb_autor")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Autor {
 
 	@Id

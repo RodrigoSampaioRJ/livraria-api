@@ -15,11 +15,15 @@ import javax.validation.constraints.PastOrPresent;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "tb_livro")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Livro {
 	
 

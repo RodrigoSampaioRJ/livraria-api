@@ -8,9 +8,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import br.com.alura.livraria.dto.AutorDto;
 import br.com.alura.livraria.dto.LivroDto;
 import br.com.alura.livraria.dto.LivroFormDto;
 import br.com.alura.livraria.model.Livro;
+import br.com.alura.livraria.repositories.AutorRepository;
 import br.com.alura.livraria.repositories.LivroRepository;
 
 @Service
@@ -19,16 +21,25 @@ public class LivroService {
 	@Autowired
 	private LivroRepository repository;
 	
+	@Autowired
+	private AutorRepository autorRepository;
+	
 	private ModelMapper mapper = new ModelMapper();
 	
 	@Transactional
-	public LivroFormDto cadastrar(LivroFormDto dto) {
+	public LivroDto cadastrar(LivroFormDto dto) {
 		
 		Livro livro = mapper.map(dto, Livro.class);
 		
 		repository.save(livro);
 		
-		return mapper.map(livro, LivroFormDto.class);
+		LivroDto livroDto = mapper.map(livro, LivroDto.class);
+		
+		AutorDto autorDto = mapper.map(autorRepository.findById(dto.getAutor().getId()).get(), AutorDto.class);
+		
+		livroDto.setAutor(autorDto);
+		
+		return livroDto;
 	}
 	
 	public Page<LivroDto> listar(Pageable paginacao){

@@ -13,7 +13,7 @@ public class AutorDto {
 	
 	private Long id;
 	private String name;
-	private LocalDate dataNascimento;
+	private LocalDate dataDeNascimento;
 	private String email;
 
 }

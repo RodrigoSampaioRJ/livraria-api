@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
@@ -32,6 +35,7 @@ public class Autor {
     private String miniCurriculo;
     @OneToMany(mappedBy = "autor")
     @JsonManagedReference
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Livro> livros;
     
 	public Autor(String name, String email, LocalDate dataDeNascimento, String miniCurriculo) {

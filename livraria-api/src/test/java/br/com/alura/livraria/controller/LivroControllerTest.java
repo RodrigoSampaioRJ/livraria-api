@@ -90,7 +90,7 @@ class LivroControllerTest {
 				post("/livro")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json))
-		.andExpect(status().isBadRequest());
+		.andExpect(status().isNotFound());
 	}
 
 }

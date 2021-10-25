@@ -1,6 +1,8 @@
 package br.com.alura.livraria.service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,17 @@ public class AutorService {
 	
 	public Page<Autor> listar(Pageable paginacao){
 		return repository.findAll(paginacao);
+	}
+
+	public AutorDto detalhar(Long id) {
+		AutorDto autorDto = modelMapper.map(repository.findById(id).orElseThrow(() -> new EntityNotFoundException()), AutorDto.class);
+		
+		return autorDto;
+	}
+
+	public void deletar(@NotNull Long id) {
+		repository.deleteById(id);
+		
 	}
 
 }

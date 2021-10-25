@@ -1,5 +1,6 @@
 package br.com.alura.livraria.service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -45,6 +46,18 @@ public class LivroService {
 	public Page<LivroDto> listar(Pageable paginacao){
 		
 		return repository.findAll(paginacao).map(l -> mapper.map(l, LivroDto.class));
+		
+	}
+
+	public LivroDto detalhar(Long id) {
+		LivroDto livroDto = mapper.map(repository.findById(id).orElseThrow(() -> new EntityNotFoundException()), LivroDto.class);
+			
+		return livroDto;
+	}
+
+	@Transactional
+	public void deletar(Long id) {
+		repository.deleteById(id);
 		
 	}
 

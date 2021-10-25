@@ -43,7 +43,8 @@ public class AutorService {
 		return autorDto;
 	}
 
-	public void deletar(@NotNull Long id) {
+	@Transactional
+	public void deletar(Long id) {
 		repository.deleteById(id);
 		
 	}

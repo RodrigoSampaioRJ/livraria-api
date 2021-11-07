@@ -15,6 +15,7 @@ import javax.validation.constraints.PastOrPresent;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import br.com.alura.livraria.dto.AtualizacaoLivroDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -51,6 +52,15 @@ public class Livro {
 		this.dataLancamento = dataLancamento;
 		this.paginas = paginas;
 		this.autor = autor;
+	}
+
+	public void atualizar(AtualizacaoLivroDto atualizacaoLivroDto) {
+		
+		this.paginas = atualizacaoLivroDto.getPaginas();
+		this.titulo = atualizacaoLivroDto.getTitulo();
+		this.dataLancamento = atualizacaoLivroDto.getDataLancamento();
+		
+		
 	}
 	
 	

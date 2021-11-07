@@ -1,5 +1,7 @@
 package br.com.alura.livraria.service;
 
+import java.util.Random;
+
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
@@ -7,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.alura.livraria.dto.AutorDto;
@@ -22,10 +25,18 @@ public class AutorService {
 	
 	private ModelMapper modelMapper = new ModelMapper();
 	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+	
 	@Transactional
 	public AutorDto cadastrar(AutorFormDto dto) {
+		
 		Autor autor = modelMapper.map(dto, Autor.class);
 
+		String senha = new Random().nextInt(999999) + "";
+		
+		autor.setPassword(encoder.encode(senha));
+		
 		repository.save(autor);
 		
 		return modelMapper.map(autor, AutorDto.class);
@@ -33,17 +44,21 @@ public class AutorService {
 	}
 	
 	public Page<Autor> listar(Pageable paginacao){
+		
 		return repository.findAll(paginacao);
 	}
 
 	public AutorDto detalhar(Long id) {
+		
 		AutorDto autorDto = modelMapper.map(repository.findById(id).orElseThrow(() -> new EntityNotFoundException()), AutorDto.class);
 		
 		return autorDto;
+
 	}
 
 	@Transactional
 	public void deletar(Long id) {
+		
 		repository.deleteById(id);
 		
 	}

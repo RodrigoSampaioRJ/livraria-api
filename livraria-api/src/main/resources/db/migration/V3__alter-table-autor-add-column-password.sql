@@ -1,0 +1,1 @@
+alter table tb_autor add column password varchar(150) not null;

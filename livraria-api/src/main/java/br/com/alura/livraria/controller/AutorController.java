@@ -20,7 +20,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.alura.livraria.dto.AutorDto;
 import br.com.alura.livraria.dto.AutorFormDto;
-import br.com.alura.livraria.model.Autor;
 import br.com.alura.livraria.service.AutorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -56,7 +55,7 @@ public class AutorController {
 	
 	@GetMapping
 	@ApiOperation("Listar todos os autores")
-	public Page<Autor> listar(Pageable paginacao){
+	public Page<AutorDto> listar(Pageable paginacao){
 		return service.listar(paginacao);
 	}
 	

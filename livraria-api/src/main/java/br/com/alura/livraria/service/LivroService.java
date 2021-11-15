@@ -16,7 +16,6 @@ import br.com.alura.livraria.dto.LivroDto;
 import br.com.alura.livraria.dto.LivroFormDto;
 import br.com.alura.livraria.model.Autor;
 import br.com.alura.livraria.model.Livro;
-import br.com.alura.livraria.repositories.AutorRepository;
 import br.com.alura.livraria.repositories.LivroRepository;
 
 @Service
@@ -26,32 +25,30 @@ public class LivroService {
 	private LivroRepository repository;
 	
 	@Autowired
-	private AutorRepository autorRepository;
-	
-	private ModelMapper mapper = new ModelMapper();
+	private ModelMapper modelMapper;
 	
 	@Transactional
 	public LivroDto cadastrar(LivroFormDto dto, Autor logado) {
 		
-		Livro livro = mapper.map(dto, Livro.class);
+		Livro livro = modelMapper.map(dto, Livro.class);
 		
 		livro.setAutor(logado);
 		
 		repository.save(livro);
 		
-		LivroDto livroDto = mapper.map(livro, LivroDto.class);	
+		LivroDto livroDto = modelMapper.map(livro, LivroDto.class);	
 		
 		return livroDto;
 	}
 	
 	public Page<LivroDto> listar(Pageable paginacao, Autor logado){
 		
-		return repository.findAllByAutor(paginacao, logado).map(l -> mapper.map(l, LivroDto.class));
+		return repository.findAllByAutor(paginacao, logado).map(l -> modelMapper.map(l, LivroDto.class));
 		
 	}
 
 	public LivroDto detalhar(Long id, Autor logado) {
-		LivroDto livroDto = mapper.map(repository.findByIdAndAutor(id, logado).orElseThrow(() -> new EntityNotFoundException()), LivroDto.class);
+		LivroDto livroDto = modelMapper.map(repository.findByIdAndAutor(id, logado).orElseThrow(() -> new EntityNotFoundException()), LivroDto.class);
 			
 		return livroDto;
 	}
@@ -79,7 +76,7 @@ public class LivroService {
 		
 		livro.atualizar(atualizacaoLivroDto);
 		
-		return mapper.map(livro, LivroDto.class);
+		return modelMapper.map(livro, LivroDto.class);
 		
 		
 	}

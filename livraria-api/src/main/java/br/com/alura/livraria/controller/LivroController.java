@@ -28,6 +28,7 @@ import br.com.alura.livraria.model.Autor;
 import br.com.alura.livraria.service.LivroService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/livro")
@@ -39,7 +40,7 @@ public class LivroController {
 	
 	@PostMapping
 	@ApiOperation("Cadastrar um novo Livro")
-	public ResponseEntity<LivroDto> cadastrar(@RequestBody @Valid LivroFormDto dto, UriComponentsBuilder uriBuilder, @AuthenticationPrincipal Autor logado) {
+	public ResponseEntity<LivroDto> cadastrar(@RequestBody @Valid LivroFormDto dto, UriComponentsBuilder uriBuilder,@ApiIgnore @AuthenticationPrincipal Autor logado) {
 		
 		LivroDto livroDto = service.cadastrar(dto, logado);
 		
@@ -50,13 +51,13 @@ public class LivroController {
 	
 	@GetMapping
 	@ApiOperation("Listar todos os Livros")
-	public Page<LivroDto> listar(Pageable paginacao, @AuthenticationPrincipal Autor logado){
+	public Page<LivroDto> listar(Pageable paginacao,@ApiIgnore @AuthenticationPrincipal Autor logado){
 		return service.listar(paginacao, logado);
 	}
 	
 	@GetMapping("/{id}")
 	@ApiOperation("Detalha um Livro específico")
-	public ResponseEntity<LivroDto> detalhar(@PathVariable @NotNull Long id, @AuthenticationPrincipal Autor logado){
+	public ResponseEntity<LivroDto> detalhar(@PathVariable @NotNull Long id,@ApiIgnore @AuthenticationPrincipal Autor logado){
 		
 		LivroDto livroDto = service.detalhar(id, logado);
 		
@@ -65,7 +66,7 @@ public class LivroController {
 	}
 	@DeleteMapping("/{id}")
 	@ApiOperation("Deleta um Livro")
-	public ResponseEntity<LivroDto> deletar(@PathVariable @NotNull Long id, @AuthenticationPrincipal Autor logado){
+	public ResponseEntity<LivroDto> deletar(@PathVariable @NotNull Long id,@ApiIgnore @AuthenticationPrincipal Autor logado){
 		service.deletar(id, logado);
 		
 		return ResponseEntity.noContent().build();
@@ -73,7 +74,7 @@ public class LivroController {
 	
 	@PutMapping("/{id}")
 	@ApiOperation("Atualiza um Livro")
-	public LivroDto atualizar(AtualizacaoLivroDto atualizacaoLivroDto, @AuthenticationPrincipal Autor logado) {
+	public LivroDto atualizar(AtualizacaoLivroDto atualizacaoLivroDto,@ApiIgnore @AuthenticationPrincipal Autor logado) {
 		return service.atualizar(atualizacaoLivroDto, logado);
 	}
 	

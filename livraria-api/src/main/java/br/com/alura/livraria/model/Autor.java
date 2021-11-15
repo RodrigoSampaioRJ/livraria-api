@@ -105,5 +105,9 @@ public class Autor implements UserDetails {
 		// TODO Auto-generated method stub
 		return true;
 	}
+	
+	public void addPerfil(Perfil perfil) {
+		this.perfis.add(perfil);
+	}
 
 }

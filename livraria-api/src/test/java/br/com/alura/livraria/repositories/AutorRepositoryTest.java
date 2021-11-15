@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -26,15 +25,14 @@ class AutorRepositoryTest {
 
 	@Test
 	void deveriaCadastrarUmAutor() {
-		Autor a1 = new Autor("Rodrigo", "digo@gmail.com", LocalDate.of(1997, 02, 26),"Este é meu curriculo");
+		Autor a1 = new Autor(1L,"rodrigo","123456", "digo@gmail.com", LocalDate.of(1997, 02, 26),"Este é meu curriculo", null,null);
 		
 		Autor autorRetorno = repository.save(a1);
 		
 		Assertions.assertThat(autorRetorno)
 		.extracting(Autor::getId,autor -> a1.getName(),autor -> a1.getEmail(), autor -> a1.getDataDeNascimento(), autor -> a1.getMiniCurriculo())
-		.containsExactly(
-				autorRetorno.getId(),
-				"Rodrigo",
+		.contains(
+				"rodrigo",
 				"digo@gmail.com", 
 				LocalDate.of(1997, 02, 26),
 				"Este é meu curriculo");

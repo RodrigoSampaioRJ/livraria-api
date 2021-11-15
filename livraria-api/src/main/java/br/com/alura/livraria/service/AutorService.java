@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import br.com.alura.livraria.dto.AutorDto;
 import br.com.alura.livraria.dto.AutorFormDto;
 import br.com.alura.livraria.model.Autor;
+import br.com.alura.livraria.model.Perfil;
 import br.com.alura.livraria.repositories.AutorRepository;
+import br.com.alura.livraria.repositories.PerfilRepository;
 
 @Service
 public class AutorService {
@@ -23,7 +25,11 @@ public class AutorService {
 	@Autowired
 	private AutorRepository repository;
 	
-	private ModelMapper modelMapper = new ModelMapper();
+	@Autowired
+	private PerfilRepository perfilRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -31,21 +37,26 @@ public class AutorService {
 	@Transactional
 	public AutorDto cadastrar(AutorFormDto dto) {
 		
+		Perfil perfil = perfilRepository.getById(dto.getPerfilId());
+		
 		Autor autor = modelMapper.map(dto, Autor.class);
 
 		String senha = new Random().nextInt(999999) + "";
 		
+		autor.addPerfil(perfil);
 		autor.setPassword(encoder.encode(senha));
 		
 		repository.save(autor);
 		
-		return modelMapper.map(autor, AutorDto.class);
+		AutorDto autorDto = modelMapper.map(autor, AutorDto.class);
+		
+		return autorDto;
 		
 	}
 	
-	public Page<Autor> listar(Pageable paginacao){
+	public Page<AutorDto> listar(Pageable paginacao){
 		
-		return repository.findAll(paginacao);
+		return repository.findAll(paginacao).map(autor -> modelMapper.map(autor, AutorDto.class));
 	}
 
 	public AutorDto detalhar(Long id) {

@@ -8,18 +8,24 @@ import java.time.LocalDate;
 
 import javax.transaction.Transactional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import br.com.alura.livraria.infra.security.TokenService;
 import br.com.alura.livraria.model.Autor;
+import br.com.alura.livraria.model.Perfil;
 import br.com.alura.livraria.repositories.AutorRepository;
+import br.com.alura.livraria.repositories.PerfilRepository;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -35,11 +41,37 @@ class LivroControllerTest {
 	@Autowired
 	private AutorRepository repository;
 	
+	@Autowired
+	private PerfilRepository perfilRepository;
+	
+	@Autowired
+	private TokenService tokenService;
+	
+	private String token;
+	
+	private Autor logado;
+	
+	@BeforeEach
+	public void before() {
+		Perfil perfil = perfilRepository.findById(2L).get();
+		
+		this.logado = new Autor("Rodrigo", "digo@gmail.com", LocalDate.of(1997, 02, 26), "Este é meu mini curriculo");
+		
+		logado.addPerfil(perfil);
+		
+		logado.setPassword("123456");
+		
+		repository.save(logado);
+		
+		Authentication authentication = new UsernamePasswordAuthenticationToken(logado , logado.getName());
+		
+		this.token = tokenService.gerarToken(authentication);
+	}
+	
 	@Test
 	void deveriaCadastrarLivroComDadosCompletos() throws Exception {
-		Autor autor = new Autor("Rodrigo", "digo@gmail.com", LocalDate.of(1997, 02, 26), "Este é meu mini curriculo");
 		
-		Long id = repository.save(autor).getId();
+		Long id = repository.save(logado).getId();
 		
 		String json = 
 				"{"
@@ -53,6 +85,7 @@ class LivroControllerTest {
 		mvc
 		.perform(
 				post("/livro")
+				.header("Authorization", "Bearer " + token)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json))
 				.andExpect(status().isCreated())
@@ -69,28 +102,11 @@ class LivroControllerTest {
 		mvc
 		.perform(
 				post("/livro")
+				.header("Authorization", "Bearer " + token)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json))
 		.andExpect(status().isBadRequest());
 	}
 
-	@Test
-	void naoDeveriaCadastrarLivroComAutorInexistente() throws Exception {
-		Long id = 999999l;
-		String json = 
-				"{"
-				+ "\"titulo\":\"O jovem programador 4\","
-				+ "\"dataLancamento\":\"2021-09-15\","
-				+ "\"paginas\":125,"
-				+ "\"autor\":{\"id\":"+id+"}"
-				+ "}";
-		
-		mvc
-		.perform(
-				post("/livro")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(json))
-		.andExpect(status().isNotFound());
-	}
 
 }

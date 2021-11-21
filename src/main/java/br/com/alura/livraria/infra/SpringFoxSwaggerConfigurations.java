@@ -12,7 +12,9 @@ import springfox.documentation.builders.RequestParameterBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+@EnableSwagger2
 @Configuration
 public class SpringFoxSwaggerConfigurations {
 
@@ -36,10 +38,10 @@ public class SpringFoxSwaggerConfigurations {
 	private ApiInfo apiInfo() {
 		return new ApiInfo(
 				"API Gerenciamento Livraria",
-				"TESTE",
+				"Projeto Bootcamp Alura Java",
 				"Termos de Uso",
 				"Termos de Serviço",
-				"Rita Cury",
+				"Rodrigo Sampaio",
 				"Licença da Api", "2");
 		
 	}

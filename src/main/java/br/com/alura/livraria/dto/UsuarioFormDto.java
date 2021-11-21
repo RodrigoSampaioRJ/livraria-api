@@ -1,5 +1,6 @@
 package br.com.alura.livraria.dto;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -17,6 +18,10 @@ public class UsuarioFormDto {
 	
 	@NotBlank
 	private String login;
+	
+	@Email
+	@NotBlank
+	private String email;
 	
 	@NotNull
 	private Long perfilId;

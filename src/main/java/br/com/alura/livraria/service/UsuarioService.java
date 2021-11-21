@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.alura.livraria.dto.UsuarioDto;
 import br.com.alura.livraria.dto.UsuarioFormDto;
+import br.com.alura.livraria.infra.EnvioEmail;
 import br.com.alura.livraria.model.Perfil;
 import br.com.alura.livraria.model.Usuario;
 import br.com.alura.livraria.repositories.PerfilRepository;
@@ -20,6 +21,9 @@ import br.com.alura.livraria.repositories.UsuarioRepository;
 
 @Service
 public class UsuarioService {
+	
+	@Autowired
+	private EnvioEmail emailService;
 	
 	@Autowired
 	private UsuarioRepository repository;
@@ -53,6 +57,11 @@ public class UsuarioService {
 		usuario.setSenha(bCryptPasswordEncoder.encode(senha));
 		
 		repository.save(usuario);
+		
+		String mensagem = String.format("Olá %s!, \n\nSeu cadastro foi confirmado no sitema, segue abaixo seus dados de acesso.\n\nLogin:%s\nSenha:%s",
+				usuario.getNome(), usuario.getLogin(), senha);
+		
+		emailService.enviarEmail(usuario.getEmail(),"Carteira - Bem vindo(a)", mensagem);
 		
 		return modelMapper.map(usuario, UsuarioDto.class);
 	}

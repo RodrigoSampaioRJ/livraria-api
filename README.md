@@ -1,4 +1,4 @@
-<h1 align="center">Projeto Módulo 5 Alura Java BootCamp</h1>
+<h1 align="center">Projeto Final Alura Java BootCamp</h1>
 
 <p> Durante o módulo dois, criamos um projeto Spring Boot do zero, utilizando a ferramenta Spring Initializr e o Maven para implementarmos os conceitos de uma API REST.
 
@@ -21,3 +21,4 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [MySql](https://www.mysql.com/)
 - [Git](https://git-scm.com/)
 - [Flyway](https://flywaydb.org/)
+- [Docker](https://www.docker.com/)

@@ -1,7 +1,8 @@
 package br.com.alura.livraria.infra;
 
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface EnvioEmail {
 
 	void enviarEmail(String destinatario, String assunto, String mensagem);

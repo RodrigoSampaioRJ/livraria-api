@@ -9,6 +9,12 @@ Adotamos a utilização do pattern DTO e utilizamos a biblioteca ModelMapper par
 Minimizamos a verbosidade do nosso código com o Lombok.
 
 Realizamos validações de formulário utilizando a biblioteca Bean Validation e também aprendemos como validar regras de negócio utilizando uma camada de serviços na API.
+  
+Implementamos métodos de segurança na API com Spring Security, e também o envil de email ao usuário logo ao realizar o cadastro com suas informações de login.
+  
+Fizemos o Deploy da aplicação no Heroku com a utilização de containers Docker, e também utilizamos integração continua para Deploy automático em produção.
+  
+
 
 ### 🛠 Tecnologias
 

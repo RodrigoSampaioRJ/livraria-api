@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  carteira_database:
+  livraria_database:
     image: mysql:8.0
     restart: always
     expose:
@@ -9,13 +9,13 @@ services:
     env_file:
       - livraria_database.env
       
-  carteira_app:
+  livraria_app:
     image: rodrigodevrj/livraria-api:1.0
     restart: always
     ports:
-      - 8080:8080
+      - 8083:8080
     depends_on:
-      - livraria_database.env
+      - livraria_database
     env_file:
       - livraria_app.env
       

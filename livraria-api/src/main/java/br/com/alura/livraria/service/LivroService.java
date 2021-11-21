@@ -1,6 +1,5 @@
 package br.com.alura.livraria.service;
 
-
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
@@ -8,7 +7,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import br.com.alura.livraria.dto.AtualizacaoLivroDto;
@@ -16,72 +14,80 @@ import br.com.alura.livraria.dto.LivroDto;
 import br.com.alura.livraria.dto.LivroFormDto;
 import br.com.alura.livraria.model.Autor;
 import br.com.alura.livraria.model.Livro;
+import br.com.alura.livraria.repositories.AutorRepository;
 import br.com.alura.livraria.repositories.LivroRepository;
 
 @Service
 public class LivroService {
-	
+
 	@Autowired
 	private LivroRepository repository;
-	
+
+	@Autowired
+	private AutorRepository autorRepository;
+
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@Transactional
-	public LivroDto cadastrar(LivroFormDto dto, Autor logado) {
-		
+	public LivroDto cadastrar(LivroFormDto dto) {
+
 		Livro livro = modelMapper.map(dto, Livro.class);
-		
-		livro.setAutor(logado);
-		
-		repository.save(livro);
-		
-		LivroDto livroDto = modelMapper.map(livro, LivroDto.class);	
-		
-		return livroDto;
-	}
-	
-	public Page<LivroDto> listar(Pageable paginacao, Autor logado){
-		
-		return repository.findAllByAutor(paginacao, logado).map(l -> modelMapper.map(l, LivroDto.class));
-		
+
+		Long autorId = dto.getAutorId();
+
+		try {
+			Autor autor = autorRepository.getById(autorId);
+			livro.setAutor(autor);
+			livro.setId(null);
+
+			repository.save(livro);
+
+			return modelMapper.map(livro, LivroDto.class);
+
+		} catch (EntityNotFoundException e) {
+			throw new IllegalArgumentException("Autor não existente");
+		}
+
 	}
 
-	public LivroDto detalhar(Long id, Autor logado) {
-		LivroDto livroDto = modelMapper.map(repository.findByIdAndAutor(id, logado).orElseThrow(() -> new EntityNotFoundException()), LivroDto.class);
-			
+	public Page<LivroDto> listar(Pageable paginacao) {
+
+		return repository.findAll(paginacao).map(l -> modelMapper.map(l, LivroDto.class));
+
+	}
+
+	public LivroDto detalhar(Long id) {
+		LivroDto livroDto = modelMapper.map(
+				repository.findById(id).orElseThrow(() -> new EntityNotFoundException()),
+				LivroDto.class);
+
 		return livroDto;
 	}
 
 	@Transactional
-	public void deletar(Long id, Autor logado) {
+	public void deletar(Long id) {
 		
-		Livro livro = repository.getById(id);
+		Livro livro = new Livro();
 		
-		if(!livro.getAutor().equals(logado)) {
-			lancaExceptionAccessDenied();
+		try {
+			livro = repository.findById(id).get();
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException("Livro não existente");
 		}
-		
-		repository.deleteById(id);
-		
+
+		repository.delete(livro);
+
 	}
 
-	public LivroDto atualizar(AtualizacaoLivroDto atualizacaoLivroDto, Autor logado) {
-		
+	public LivroDto atualizar(AtualizacaoLivroDto atualizacaoLivroDto) {
+
 		Livro livro = repository.getById(atualizacaoLivroDto.getId());
-		
-		if(!livro.getAutor().equals(logado)) {
-			lancaExceptionAccessDenied();
-		}
-		
+
 		livro.atualizar(atualizacaoLivroDto);
-		
+
 		return modelMapper.map(livro, LivroDto.class);
-		
-		
+
 	}
 
-	private void lancaExceptionAccessDenied() {
-		throw new AccessDeniedException("");
-	}
 }

@@ -24,8 +24,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import br.com.alura.livraria.infra.security.TokenService;
 import br.com.alura.livraria.model.Autor;
 import br.com.alura.livraria.model.Perfil;
+import br.com.alura.livraria.model.Usuario;
 import br.com.alura.livraria.repositories.AutorRepository;
 import br.com.alura.livraria.repositories.PerfilRepository;
+import br.com.alura.livraria.repositories.UsuarioRepository;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -39,7 +41,10 @@ class LivroControllerTest {
 	private MockMvc mvc;
 	
 	@Autowired
-	private AutorRepository repository;
+	private AutorRepository autorRepository;
+	
+	@Autowired
+	private UsuarioRepository repository;
 	
 	@Autowired
 	private PerfilRepository perfilRepository;
@@ -49,21 +54,19 @@ class LivroControllerTest {
 	
 	private String token;
 	
-	private Autor logado;
+	private Usuario logado;
 	
 	@BeforeEach
 	public void before() {
-		Perfil perfil = perfilRepository.findById(2L).get();
+		Perfil perfil = perfilRepository.findById(1L).get();
 		
-		this.logado = new Autor("Rodrigo", "digo@gmail.com", LocalDate.of(1997, 02, 26), "Este é meu mini curriculo");
+		this.logado = new Usuario("Rodrigo", "rodrigo", "123456");
 		
 		logado.addPerfil(perfil);
 		
-		logado.setPassword("123456");
-		
 		repository.save(logado);
 		
-		Authentication authentication = new UsernamePasswordAuthenticationToken(logado , logado.getName());
+		Authentication authentication = new UsernamePasswordAuthenticationToken(logado , logado.getNome());
 		
 		this.token = tokenService.gerarToken(authentication);
 	}
@@ -71,14 +74,14 @@ class LivroControllerTest {
 	@Test
 	void deveriaCadastrarLivroComDadosCompletos() throws Exception {
 		
-		Long id = repository.save(logado).getId();
+		Long id = autorRepository.save(criaAutor()).getId();
 		
 		String json = 
 				"{"
 				+ "\"titulo\":\"O jovem programador 4\","
 				+ "\"dataLancamento\":\"2021-09-15\","
 				+ "\"paginas\":125,"
-				+ "\"autor\":{\"id\":"+id+"}"
+				+ "\"autorId\":"+id+"}"
 				+ "}";
 		
 		
@@ -106,6 +109,10 @@ class LivroControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json))
 		.andExpect(status().isBadRequest());
+	}
+	
+	private Autor criaAutor() {
+		return new Autor("Rodrigo", "autor@email.com", LocalDate.parse("1997-02-26"), "Este é meu mini curriculo");
 	}
 
 

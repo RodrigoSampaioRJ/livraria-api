@@ -3,7 +3,6 @@ package br.com.alura.livraria.dto;
 import java.time.LocalDate;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import lombok.Data;
@@ -23,9 +22,6 @@ public class AutorFormDto {
 	@NotBlank
     private String miniCurriculo;
 	
-	@NotNull
-	private Long perfilId;
-
 	public AutorFormDto(String name, String email, LocalDate dataDeNascimento,
 			 String miniCurriculo) {
 		this.name = name;

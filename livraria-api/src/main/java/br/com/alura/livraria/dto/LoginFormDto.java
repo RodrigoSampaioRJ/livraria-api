@@ -14,6 +14,6 @@ public class LoginFormDto {
 	@NotBlank
 	private String name;
 	@NotBlank
-	private String password;
+	private String senha;
 
 }

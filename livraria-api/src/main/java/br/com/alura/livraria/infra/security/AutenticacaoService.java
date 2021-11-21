@@ -11,14 +11,14 @@ import org.springframework.stereotype.Service;
 
 import br.com.alura.livraria.dto.LoginFormDto;
 import br.com.alura.livraria.dto.TokenDto;
-import br.com.alura.livraria.model.Autor;
-import br.com.alura.livraria.repositories.AutorRepository;
+import br.com.alura.livraria.model.Usuario;
+import br.com.alura.livraria.repositories.UsuarioRepository;
 
 @Service
 public class AutenticacaoService implements UserDetailsService{
 	
 	@Autowired
-	private AutorRepository repository;
+	private UsuarioRepository repository;
 	
 	@Autowired
 	private TokenService tokenService;
@@ -29,16 +29,16 @@ public class AutenticacaoService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		Autor autor = repository.findByName(username).orElseThrow(() -> new UsernameNotFoundException(""));
+		Usuario usuario = repository.findByLogin(username).orElseThrow(() -> new UsernameNotFoundException(""));
 		
-		return autor;
+		return usuario;
 	}
 
 	public TokenDto autenticar(LoginFormDto dto) {
 		
 		
 		
-		Authentication authentication = new UsernamePasswordAuthenticationToken(dto.getName(), dto.getPassword());
+		Authentication authentication = new UsernamePasswordAuthenticationToken(dto.getName(), dto.getSenha());
 		
 		authentication = authenticationManager.authenticate(authentication);
 		

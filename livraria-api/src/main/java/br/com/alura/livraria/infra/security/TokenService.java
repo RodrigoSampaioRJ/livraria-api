@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import br.com.alura.livraria.model.Autor;
+import br.com.alura.livraria.model.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,7 +17,7 @@ public class TokenService {
 	
 	public String gerarToken(Authentication authentication) {
 		
-		Autor logado = (Autor)authentication.getPrincipal();
+		Usuario logado = (Usuario)authentication.getPrincipal();
 		
 		return Jwts.builder().setSubject(logado.getId().toString()).signWith(SignatureAlgorithm.HS256, secret).compact();
 		

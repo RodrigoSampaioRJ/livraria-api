@@ -26,5 +26,8 @@ public class LivroFormDto {
 	@NotNull
 	private Integer paginas;
 	
+	@NotNull
+	private Long autorId;
+	
 
 }

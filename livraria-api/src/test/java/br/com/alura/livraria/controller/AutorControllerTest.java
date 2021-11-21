@@ -27,8 +27,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import br.com.alura.livraria.infra.security.TokenService;
 import br.com.alura.livraria.model.Autor;
 import br.com.alura.livraria.model.Perfil;
+import br.com.alura.livraria.model.Usuario;
 import br.com.alura.livraria.repositories.AutorRepository;
 import br.com.alura.livraria.repositories.PerfilRepository;
+import br.com.alura.livraria.repositories.UsuarioRepository;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -41,14 +43,17 @@ class AutorControllerTest {
 	private MockMvc mvc;
 	
 	@Autowired
-	private AutorRepository repository;
+	private AutorRepository autorRepository;
+	
+	@Autowired
+	private UsuarioRepository repository;
 	
 	@Autowired
 	private TokenService tokenService;
 	
 	private String token;
 	
-	private Autor logado;
+	private Usuario logado;
 
 	@Autowired
 	private PerfilRepository perfilRepository;
@@ -57,15 +62,13 @@ class AutorControllerTest {
 	public void before() {
 		Perfil perfil = perfilRepository.findById(1L).get();
 		
-		this.logado = new Autor("Rodrigo", "digo@gmail.com", LocalDate.of(1997, 02, 26), "Este é meu mini curriculo");
+		this.logado = new Usuario("Rodrigo", "rodrigo", "123456");
 		
 		logado.addPerfil(perfil);
 		
-		logado.setPassword("123456");
-		
 		repository.save(logado);
 		
-		Authentication authentication = new UsernamePasswordAuthenticationToken(logado , logado.getName());
+		Authentication authentication = new UsernamePasswordAuthenticationToken(logado , logado.getNome());
 		
 		this.token = tokenService.gerarToken(authentication);
 	}
@@ -116,7 +119,7 @@ class AutorControllerTest {
 	void deveriaDeletarAutor() throws Exception {
 		
 			
-		String id = repository.save(logado).getId().toString();
+		String id = autorRepository.save(criaAutor()).getId().toString();
 		
 
 		mvc.perform(
@@ -130,13 +133,13 @@ class AutorControllerTest {
 	void deveriaDetalharAutor() throws Exception  {
 		
 		
-		String id = repository.save(logado).getId().toString();
+		String id = autorRepository.save(criaAutor()).getId().toString();
 		
 		String jsonEsperado = "{"
 				+ "\"id\":" + id + ","
 				+ "\"name\":\"Rodrigo\","
 				+ "\"dataDeNascimento\":\"1997-02-26\","
-				+ "\"email\":\"digo@gmail.com\"}";
+				+ "\"email\":\"autor@email.com\"}";
 		
 		System.out.println(id);
 		mvc
@@ -146,6 +149,10 @@ class AutorControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(content().json(jsonEsperado));
 
+	}
+	
+	private Autor criaAutor() {
+		return new Autor("Rodrigo", "autor@email.com", LocalDate.parse("1997-02-26"), "Este é meu mini curriculo");
 	}
 
 }

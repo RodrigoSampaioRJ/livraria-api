@@ -25,8 +25,7 @@ public class AutenticacaoController {
 	@PostMapping
 	@ApiOperation("Realiza a autenticação de um Autor")
 	public TokenDto autenticar(@RequestBody @Valid LoginFormDto dto) {
-		
-		System.out.println(dto.toString());
+
 		return autenticacaoService.autenticar(dto);
 	}
 	

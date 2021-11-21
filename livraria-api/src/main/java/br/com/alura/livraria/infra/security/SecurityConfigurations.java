@@ -13,7 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import br.com.alura.livraria.repositories.AutorRepository;
+import br.com.alura.livraria.repositories.UsuarioRepository;
 
 @Configuration
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
@@ -25,7 +25,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	private BCryptPasswordEncoder encoder;
 	
 	@Autowired
-	private AutorRepository repository;
+	private UsuarioRepository repository;
 	
 	@Autowired
 	private TokenService tokenService;
@@ -41,7 +41,6 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		http
 		.authorizeRequests()
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
-		.antMatchers(HttpMethod.POST, "/autor").hasRole("ADMIN")
 		.anyRequest().authenticated()
 		.and()
 		.sessionManagement()

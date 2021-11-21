@@ -25,7 +25,7 @@ class AutorRepositoryTest {
 
 	@Test
 	void deveriaCadastrarUmAutor() {
-		Autor a1 = new Autor(1L,"rodrigo","123456", "digo@gmail.com", LocalDate.of(1997, 02, 26),"Este é meu curriculo", null,null);
+		Autor a1 = new Autor(1L,"rodrigo","digo@gmail.com", LocalDate.of(1997, 02, 26),"Este é meu curriculo",null);
 		
 		Autor autorRetorno = repository.save(a1);
 		

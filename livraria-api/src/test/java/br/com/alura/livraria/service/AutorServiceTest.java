@@ -45,7 +45,6 @@ class AutorServiceTest {
 	@Test
 	void deveriaCadastrarAutor() {
 		AutorFormDto formDto = new AutorFormDto("Rodrigo", "digo@gmail.com", LocalDate.of(1997, 02, 26), "Este é o mini curriculo teste");
-		formDto.setPerfilId(1L);
 		
 		Mockito.when(modelMapper.map(formDto, Autor.class)).thenReturn(new Autor("Rodrigo", "digo@gmail.com", LocalDate.of(1997, 02, 26), "Este é meu mini curriculo"));
 		

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,11 +23,9 @@ import com.sun.istack.NotNull;
 import br.com.alura.livraria.dto.AtualizacaoLivroDto;
 import br.com.alura.livraria.dto.LivroDto;
 import br.com.alura.livraria.dto.LivroFormDto;
-import br.com.alura.livraria.model.Autor;
 import br.com.alura.livraria.service.LivroService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/livro")
@@ -40,9 +37,9 @@ public class LivroController {
 	
 	@PostMapping
 	@ApiOperation("Cadastrar um novo Livro")
-	public ResponseEntity<LivroDto> cadastrar(@RequestBody @Valid LivroFormDto dto, UriComponentsBuilder uriBuilder,@ApiIgnore @AuthenticationPrincipal Autor logado) {
+	public ResponseEntity<LivroDto> cadastrar(@RequestBody @Valid LivroFormDto dto, UriComponentsBuilder uriBuilder) {
 		
-		LivroDto livroDto = service.cadastrar(dto, logado);
+		LivroDto livroDto = service.cadastrar(dto);
 		
 		URI uri = uriBuilder.path("livro/{id}").buildAndExpand(livroDto.getId()).toUri();
 		
@@ -51,31 +48,31 @@ public class LivroController {
 	
 	@GetMapping
 	@ApiOperation("Listar todos os Livros")
-	public Page<LivroDto> listar(Pageable paginacao,@ApiIgnore @AuthenticationPrincipal Autor logado){
-		return service.listar(paginacao, logado);
+	public Page<LivroDto> listar(Pageable paginacao){
+		return service.listar(paginacao);
 	}
 	
 	@GetMapping("/{id}")
 	@ApiOperation("Detalha um Livro específico")
-	public ResponseEntity<LivroDto> detalhar(@PathVariable @NotNull Long id,@ApiIgnore @AuthenticationPrincipal Autor logado){
+	public ResponseEntity<LivroDto> detalhar(@PathVariable @NotNull Long id){
 		
-		LivroDto livroDto = service.detalhar(id, logado);
+		LivroDto livroDto = service.detalhar(id);
 		
 		
 		return ResponseEntity.ok(livroDto);
 	}
 	@DeleteMapping("/{id}")
 	@ApiOperation("Deleta um Livro")
-	public ResponseEntity<LivroDto> deletar(@PathVariable @NotNull Long id,@ApiIgnore @AuthenticationPrincipal Autor logado){
-		service.deletar(id, logado);
+	public ResponseEntity<LivroDto> deletar(@PathVariable @NotNull Long id){
+		service.deletar(id);
 		
 		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping("/{id}")
 	@ApiOperation("Atualiza um Livro")
-	public LivroDto atualizar(AtualizacaoLivroDto atualizacaoLivroDto,@ApiIgnore @AuthenticationPrincipal Autor logado) {
-		return service.atualizar(atualizacaoLivroDto, logado);
+	public LivroDto atualizar(AtualizacaoLivroDto atualizacaoLivroDto) {
+		return service.atualizar(atualizacaoLivroDto);
 	}
 	
 	

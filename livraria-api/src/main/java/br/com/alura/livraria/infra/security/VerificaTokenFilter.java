@@ -12,19 +12,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import br.com.alura.livraria.model.Autor;
-import br.com.alura.livraria.repositories.AutorRepository;
+import br.com.alura.livraria.model.Usuario;
+import br.com.alura.livraria.repositories.UsuarioRepository;
 
 public class VerificaTokenFilter extends OncePerRequestFilter {
 	
 	
 	private TokenService tokenService;
-	private AutorRepository autorRepository;
+	private UsuarioRepository usuarioRepository;
 	
 	
-	public VerificaTokenFilter(TokenService tokenService, AutorRepository autorRepository) {
+	public VerificaTokenFilter(TokenService tokenService, UsuarioRepository usuarioRepository) {
 		this.tokenService = tokenService;
-		this.autorRepository = autorRepository;
+		this.usuarioRepository = usuarioRepository;
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class VerificaTokenFilter extends OncePerRequestFilter {
 		
 		Long autorId = tokenService.getAutorId(token);
 		
-		Autor logado = autorRepository.findById(autorId).get();
+		Usuario logado = usuarioRepository.findById(autorId).get();
 		
 		if(tokenValido) {
 			

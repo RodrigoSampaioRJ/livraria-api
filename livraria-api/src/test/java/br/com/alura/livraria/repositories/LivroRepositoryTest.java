@@ -36,8 +36,7 @@ class LivroRepositoryTest {
 	void deveRetornarRelatorioDeLivros() {
 		Autor a1 = new Autor("Rodrigo", "digo@gmail.com", LocalDate.of(1997, 02, 26),"Este é meu curriculo");
 		Autor a2 = new Autor("Alexandra", "alexandra@gmail.com", LocalDate.of(1997, 02, 24),"Este é meu curriculo");
-		a1.setPassword("123456");
-		a2.setPassword("123456");
+
 		em.persist(a1);
 		em.persist(a2);
 		

@@ -14,5 +14,5 @@ create table perfis_usuarios(
 );
 
 
-insert into tb_perfil values(1, "ROLE_ADMIN");
-insert into tb_perfil values(2, "ROLE_USER");
+insert into tb_perfil values(1, 'ROLE_ADMIN');
+insert into tb_perfil values(2, 'ROLE_USER');
